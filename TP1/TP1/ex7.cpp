@@ -7,8 +7,27 @@
 
 double minimumAverageCompletionTime(std::vector<unsigned int> tasks, std::vector<unsigned int> &orderedTasks) {
     //TODO...
-
-    return 0.0;
+    std::vector<unsigned int> tasks_sum;
+    double sum = 0;
+    int index, duration = tasks[0];
+    orderedTasks.clear();
+    while(!tasks.empty()) {
+        index = 0; duration = tasks[0];
+        for (size_t i = 0; i < tasks.size();i++) {
+            if (tasks[i] < duration) {
+                duration = tasks[i];
+                index = i;
+            }
+        }
+        orderedTasks.push_back(tasks[index]);
+        tasks.erase(tasks.begin()+index);
+    }
+    for (size_t i = 0; i < orderedTasks.size(); i++) {
+        if (i == 0) tasks_sum.push_back(orderedTasks[i]);
+        else tasks_sum.push_back(tasks_sum[i-1] + orderedTasks[i]);
+    }
+    for (auto i: tasks_sum) sum += i;
+    return sum/orderedTasks.size();
 }
 
 /// TESTS ///

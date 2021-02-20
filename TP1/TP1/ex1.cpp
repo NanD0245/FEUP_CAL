@@ -1,16 +1,42 @@
 // By: Gonçalo Leão
 
 #include "exercises.h"
+#include <iostream>
+using namespace std;
 
 bool sum3(unsigned int T, unsigned int nums[3]) {
-    //TODO...
+    bool check = false;
+    for (int i = 1; i < 10; i++) {
 
-    return false;
+        for (int j = 1; j < 10; j++) {
+
+            for (int k = 1; k < T; k++) {
+
+                if (i+j+k == T) {
+                    nums[0] = i;
+                    nums[1] = j;
+                    nums[2] = k;
+                    check = true;
+                    cout << T << " = " << i << " + " << j << " + " << k << endl;
+                }
+            }
+        }
+    }
+    return check;
 }
 
-bool sum3_a(unsigned int T, unsigned int nums[3]) {
-    //TODO...
 
+bool sum3_a(unsigned int T, unsigned int nums[3]) {
+    for (int i = 1; i < 10; i++) {
+        nums[0] = i;
+        for (int j = 1; j < 10; j++) {
+            nums[1] = j;
+            if (T-i-j>0 && T-i-j<T) {
+                nums[2] = T-i-j;
+                return true;
+            }
+        }
+    }
     return false;
 }
 

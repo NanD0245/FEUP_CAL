@@ -1,11 +1,30 @@
 // By: Gonçalo Leão
 
 #include "exercises.h"
+#include <vector>
+using namespace std;
 
 bool changeMakingGreedy(unsigned int C[], unsigned int Stock[], unsigned int n, unsigned int T, unsigned int usedCoins[]) {
-    //TODO...
+    vector<int> allcoins;
+    int t = T;
 
-    return false;
+    for (int i = 0; i < n; i++) {
+        for (int j = 0; j < Stock[i]; j++)
+            allcoins.push_back(C[i]);
+        usedCoins[i] = 0;
+    }
+    for (int i = allcoins.size()-1; i >= 0; i--) {
+        if (allcoins[i] > t) continue;
+        t -= allcoins[i];
+        for (int j = 0; j < n; j++) {
+            if (C[j] == allcoins[i]) {
+                usedCoins[j]++;
+            }
+        }
+    }
+    if (t != 0)
+        return false;
+    return true;
 }
 
 
@@ -28,8 +47,8 @@ TEST(TP1_Ex4, hasGreedyChange) {
     EXPECT_EQ(changeMakingGreedy(C,Stock2,n,38,usedCoins), true);
     EXPECT_EQ(usedCoins[0], 1);
     EXPECT_EQ(usedCoins[1], 1);
-    EXPECT_EQ(usedCoins[2], 3);
-    EXPECT_EQ(usedCoins[3], 2);
+    EXPECT_EQ(usedCoins[2], 3);//1
+    EXPECT_EQ(usedCoins[3], 2);//3
 }
 
 TEST(TP1_Ex4, hasNoGreedyChange) {

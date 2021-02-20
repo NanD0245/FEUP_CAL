@@ -13,9 +13,24 @@ unsigned int sumArray(unsigned int a[], unsigned int n) {
 #include <iostream>
 
 bool isCanonical(unsigned int C[], unsigned int n) {
-    //TODO...
-
-    return false;
+    if (n < 3) return false;
+    int a = C[2] + 1;
+    int b = C[n-2] + C[n-1];
+    unsigned int bf[n];
+    unsigned int greedy[n];
+    unsigned int stock[n];
+    for (int i = 0; i < n; i++) {
+        stock[i] = n;
+    }
+    for (int i = a+1; i < b; i++) {
+        changeMakingBF(C,stock,n,i,bf);
+        changeMakingGreedy(C,stock,n,i,greedy);
+        for (int j = 0; j < n; j++) {
+            if (bf[j] != greedy[j])
+                return false;
+        }
+    }
+    return true;
 }
 
 
@@ -32,5 +47,5 @@ TEST(TP1_Ex5, canonicalTrue) {
 
 TEST(TP1_Ex5, canonicalFalse) {
     unsigned int C[] = {1,4,5};
-    EXPECT_EQ(isCanonical(C,3), true);
+    EXPECT_EQ(isCanonical(C,3), false);
 }

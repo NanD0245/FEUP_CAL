@@ -1,0 +1,44 @@
+// By: Gonçalo Leão
+
+#include "exercises.h"
+
+bool Activity::operator==(const Activity &a2) const {
+    return start == a2.start && finish == a2.finish;
+}
+
+bool Activity::operator<(const Activity &a2) const {
+    return finish < a2.finish;
+}
+
+std::vector<Activity> earliestFinishScheduling(std::vector<Activity> A) {
+    std::vector<Activity> res,attempt;
+    while (!A.empty()) {
+        Activity a(-1,-1);
+        int index;
+        for (size_t i = 0; i < A.size(); i++) {
+            if (A[i].finish < a.finish) {
+                a = A[i];
+                index = i;
+            }
+        }
+        res.push_back(a);
+        for(auto i = A.begin(); i != A.end(); i++){
+            if (i->start < a.finish) {
+                A.erase(i);
+                i--;
+            }
+        }
+    }
+    return res;
+}
+
+/// TESTS ///
+#include <gtest/gtest.h>
+#include <gmock/gmock.h>
+
+TEST(TP1_Ex6, activityScheduling) {
+    std::vector<Activity> A = {{10,20}, {30, 35}, {5, 15}, {10, 40}, {40, 50}};
+    std::vector<Activity> V = earliestFinishScheduling(A);
+    EXPECT_EQ(V.size(), 3 );
+    ASSERT_THAT(earliestFinishScheduling(A),  ::testing::ElementsAre(Activity(5, 15), Activity(30, 35), Activity(40, 50)));
+}

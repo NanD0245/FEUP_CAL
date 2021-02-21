@@ -2,77 +2,48 @@
 
 #include "exercises.h"
 #include <vector>
+#include <iostream>
 using namespace std;
 
-/*int getindex(const int coin, unsigned int C[],unsigned int n) {
-    for (int i = 0; i < n; i++) {
-        if (coin == C[i])
-            return i;
-    }
-    return -1;
+int sum(const vector<int>& a) {
+    int sum = 0;
+    for (int i : a) {sum += i;}
+    return sum;
 }
-bool changeMakingBF(unsigned int C[], unsigned int Stock[], unsigned int n, unsigned int T, unsigned int usedCoins[]) {
-    vector<unsigned int> allcoins;
-    for (int i = 0; i < n; i++) {
-        for (int j = 0; j < Stock[i]; j++)
-            allcoins.push_back(C[i]);
-        usedCoins[i] = 0;
-    }
-    while (allcoins.size()>0) {
-        for (int i = allcoins.size() - 1; i >= 0; i--) {
-            if (T > allcoins[i] && Stock[getindex(allcoins[i], C, n)] > 0) {
-                usedCoins[getindex(allcoins[i], C, n)]++;
-                Stock[getindex(allcoins[i], C, n)]--;
-                T -= allcoins[i];
-            } else if (T == allcoins[i] && Stock[getindex(allcoins[i], C, n)] > 0) {
-                usedCoins[getindex(allcoins[i], C, n)]++;
-                Stock[getindex(allcoins[i], C, n)]--;
-                return true;
-            }
+
+void getcombos(vector<vector<int>> &possibilities,vector<int> &combination,vector<int> &coins,int T,int offset, int k) {
+    if (k == 0) {
+        if (sum(combination) == T) {
+            possibilities.push_back(combination);
         }
-        allcoins.erase(allcoins.end()-1);
+        return;
     }
-    return false;
-}*/
-
-#include <iostream>
-#include <algorithm>
-
-template <class T> std::vector<std::vector<T>> makeComb(const std::vector<T>& vec, std::vector<std::vector<T>>& tmp, unsigned curr) {
-    for (unsigned i = tmp.size()/2; i < tmp.size(); ++i){ // insert the element in half of the vector
-        tmp.at(i).push_back(vec.at(curr));
+    for (int i = offset; i <= coins.size() - k; ++i) {
+        combination.push_back(coins[i]);
+        getcombos(possibilities,combination, coins,T,i+1, k-1);
+        combination.pop_back();
     }
-    if (curr >= vec.size() - 1) return tmp;
-    unsigned currTmpSize = tmp.size();
-    for (unsigned i = 0; i < currTmpSize; ++i) tmp.push_back(tmp.at(i)); // repeat the elements
-    return makeComb(vec, tmp, curr + 1);
-}
-
-template <class T> std::vector<std::vector<T>> combinations(const std::vector<T>& vec){
-    std::vector<std::vector<T>> tmp = {{},{}};
-    return !vec.empty() ? makeComb(vec, tmp, 0) : std::vector<std::vector<T>>();
 }
 
 bool changeMakingBF(unsigned int C[], unsigned int Stock[], unsigned int n, unsigned int T, unsigned int usedCoins[]) {
-    std::vector<unsigned int> coins;
+    std::vector<int> coins;
     for (unsigned i = 0; i < n; ++i){ // push_back all coins in the pocket
         for (unsigned s = 0; s < Stock[i]; ++s) coins.push_back(C[i]);
+        usedCoins[i] = 0;
     }
-    auto comb = combinations(coins);
-    unsigned minCoinsUsed = 99999;
-    std::vector<unsigned> bestComb;
-    for (const auto& c: comb) {
-        if (c.empty()) continue;
-        unsigned sum = 0;
-        for (const unsigned e: c) sum += e;
-        if (sum == T && c.size() < minCoinsUsed){
-            minCoinsUsed = c.size();
-            bestComb = c;
+    vector<vector<int>> possibilities; vector<int> combination;
+    for (int k = 0; k < coins.size(); k++) {
+        getcombos(possibilities, combination, coins, T, 0, k);
+        if (!possibilities.empty())
+            break;
+    }
+    if (possibilities.empty()) return false;
+    vector<int> res = possibilities[0];
+    for (int i = 0; i < res.size(); i++) {
+        for (int c = 0; c < n; c++) {
+            if (res[i] == C[c])
+                usedCoins[c]++;
         }
-    }
-    if (bestComb.empty()) return false;
-    for (unsigned i = 0; i < n; ++i){
-        usedCoins[i] = std::count(bestComb.begin(), bestComb.end(), C[i]);
     }
     return true;
 }

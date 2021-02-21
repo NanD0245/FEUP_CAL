@@ -17,7 +17,6 @@ bool sum3(unsigned int T, unsigned int nums[3]) {
                     nums[1] = j;
                     nums[2] = k;
                     check = true;
-                    cout << T << " = " << i << " + " << j << " + " << k << endl;
                 }
             }
         }

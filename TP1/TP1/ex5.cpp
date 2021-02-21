@@ -10,8 +10,6 @@ unsigned int sumArray(unsigned int a[], unsigned int n) {
     return sum;
 }
 
-#include <iostream>
-
 bool isCanonical(unsigned int C[], unsigned int n) {
     if (n < 3) return false;
     int a = C[2] + 1;

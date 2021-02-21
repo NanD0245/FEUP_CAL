@@ -2,7 +2,6 @@
 
 #include "exercises.h"
 
-#include <algorithm>
 #include <vector>
 
 double minimumAverageCompletionTime(std::vector<unsigned int> tasks, std::vector<unsigned int> &orderedTasks) {

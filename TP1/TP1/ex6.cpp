@@ -1,7 +1,6 @@
 // By: Gonçalo Leão
 
 #include "exercises.h"
-#include <algorithm>
 
 bool Activity::operator==(const Activity &a2) const {
     return start == a2.start && finish == a2.finish;

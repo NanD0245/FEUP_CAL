@@ -1,7 +1,6 @@
 // By: Gonçalo Leão
 
 #include "exercises.h"
-#include <iostream>
 using namespace std;
 
 bool sum3(unsigned int T, unsigned int nums[3]) {

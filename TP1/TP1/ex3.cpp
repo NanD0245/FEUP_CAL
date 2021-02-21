@@ -2,7 +2,6 @@
 
 #include "exercises.h"
 #include <vector>
-#include <iostream>
 using namespace std;
 
 int sum(const vector<int>& a) {
@@ -39,9 +38,9 @@ bool changeMakingBF(unsigned int C[], unsigned int Stock[], unsigned int n, unsi
     }
     if (possibilities.empty()) return false;
     vector<int> res = possibilities[0];
-    for (int i = 0; i < res.size(); i++) {
+    for (int i : res) {
         for (int c = 0; c < n; c++) {
-            if (res[i] == C[c])
+            if (i == C[c])
                 usedCoins[c]++;
         }
     }

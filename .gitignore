@@ -1,1 +1,3 @@
-*cmake-build-debug/
+TP1/TP1/cmake-build-debug/
+.idea
+lib/

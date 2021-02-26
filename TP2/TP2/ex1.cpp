@@ -19,7 +19,7 @@ void  Labyrinth::print() const {
 }
 
 bool Labyrinth::findGoal(int x, int y) {
-    if (labyrinth[x][y] == 0 || visited[x][y]))
+    if (labyrinth[x][y] == 0 || visited[x][y])
         return false;
     else if (labyrinth[x][y] == 2)
         return true;

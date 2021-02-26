@@ -110,8 +110,8 @@ private:
     void clear();
 	//TODO: Add other methods if needed
 
-	bool possibleValues(int &i, int &j,int &p);
-    bool canFindBestCell(int &row, int &col);
+	int possibleValues(int &i, int &j);
+    //bool canFindBestCell(int &row, int &col);
 };
 
 // Ex 3

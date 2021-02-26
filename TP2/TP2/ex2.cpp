@@ -36,47 +36,36 @@ bool Sudoku::isComplete() const {
     return countFilled == 9 * 9;
 }
 
-bool Sudoku::possibleValues(int &i, int &j, int &p) {  //em vez de um int guardar apenas nº de possibilidades
-    p = 0;
-    for (int k = 1; k < 10; k++) {
+int Sudoku::possibleValues(int &i, int &j) {
+    int k,p = 0;
+    for (k = 1; k < 10; k++)
         if (accepts(i,j,k))
             p++;
-    }
-    if (p == 0) return false;
-    return true;
+    return p;
 }
+
 
 bool Sudoku::solve() {
     if (isComplete()) {return true;}
-    int x, y, p, min=-1;
-    for (int i = 0; i < 9; i++) {
-        for (int j = 0; j < 9; j++) {
-            if (numbers[i][j] == 0 && possibleValues(i,j,p)) {
-                if (min == -1) {
-                    min = p;
-                    x = i;
-                    y = j;
-                } else if (min > p) {
-                    min = p;
-                    x = i;
-                    y = j;
-                }
+    int x, y, p, min=10,j,i,k;
+    for (i = 0; i < 9; i++)
+        for (j = 0; j < 9; j++) {
+            if (numbers[i][j] == 0) {
+                if((p = possibleValues(i,j)) == 0) return false;
+
+                if (min > p) {min = p;x = i;y = j;}
             }
-            if (min == 1) break;
+            if (min == 1){i = 9; break;}
         }
-        if (min == 1) break;
-    }
-    if (min == -1) return false;
-    for (int k = 1; k < 10; k++) {
+    if (min == 10) return false;
+    for (k = 1; k < 10; k++)
         if (accepts(x,y,k)) {
             place(x, y, k);
             if (solve()) return true;
             clear(x, y);
         }
-    }
     return false;
 }
-
 
 
 int Sudoku::countSolutions() {

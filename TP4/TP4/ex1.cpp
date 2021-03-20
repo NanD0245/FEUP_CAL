@@ -17,7 +17,6 @@ unsigned long factorialDP(unsigned long n) {
 #include <gtest/gtest.h>
 
 TEST(TP4_Ex1, FactorialTest) {
-    std::cout << "entrei" << std::endl;
     EXPECT_EQ(1,factorialRecurs(0));
     EXPECT_EQ(1,factorialRecurs(1));
     EXPECT_EQ(2,factorialRecurs(2));

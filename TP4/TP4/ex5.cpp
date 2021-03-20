@@ -1,23 +1,32 @@
 #include "exercises.h"
 
 unsigned long s_recursive(unsigned int n, unsigned int k) {
-    // TODO
-    return 0;
+    if (k == 1 || k == n) return 1;
+    return s_recursive(n-1,k-1) + k * s_recursive(n-1,k);
 }
 
 unsigned long b_recursive(unsigned int n) {
-    // TODO
-    return 0;
+    unsigned long sum = 0;
+    for (int k = 1; k <= n; k++) sum += s_recursive(n,k);
+    return sum;
 }
 
 unsigned long s_dynamic(unsigned int n, unsigned int k) {
-    // TODO
-    return 0;
+    int maxj = n - k;
+    unsigned  long c[1 + maxj];
+
+    for (int i = 0; i <= maxj; i++)
+        c[i] = 1;
+    for (int i = 2; i <= k; i++)
+        for (int j = 1; j <= maxj; j++)
+            c[j] += i * c[j - 1];
+    return c[maxj];
 }
 
 unsigned long b_dynamic(unsigned int n) {
-    // TODO
-    return 0;
+    unsigned long sum = 0;
+    for (int k = 1; k <= n; k++) sum += s_dynamic(n,k);
+    return sum;
 }
 
 /// TESTS ///

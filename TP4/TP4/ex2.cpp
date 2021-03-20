@@ -1,5 +1,9 @@
 #include "exercises.h"
 
+#include <vector>
+
+using namespace std;
+
 bool changeMakingUnlimitedDP(unsigned int C[], unsigned int n, unsigned int T, unsigned int usedCoins[]) {
     // TODO
     int min = 9999999;
@@ -10,27 +14,28 @@ bool changeMakingUnlimitedDP(unsigned int C[], unsigned int n, unsigned int T, u
         usedCoins[i] = 0;
         coins[i] = 0;
     }
-    for (int j = n - 1; i >= 0; j--)
-    while (T != 0) {
-        check = false;
-        for (int i = n - 1; i >= 0; i--) {
-            if (C[i] <= T) {
-                T -= C[i];
-                coins[i]++;
-                count++;
-                check = true;
-                break;
+    for (int j = n - 1; j >= 0; j--)
+        while (T != 0) {
+            check = false;
+            for (int i = n - 1; i >= 0; i--) {
+                if (C[i] <= T) {
+                    T -= C[i];
+                    coins[i]++;
+                    count++;
+                    check = true;
+                    break;
+                }
             }
+            if (T == 0) break;
+            if (!check) break;
         }
-        if (T == 0) break;
-        if (!check) break;
-    }
     if (min == 9999999)
         for (int i = 0; i < n; i++) {
             usedCoins[i] = coins[i];
         }
     if (!check) return false;
 	return true;
+
 }
 
 

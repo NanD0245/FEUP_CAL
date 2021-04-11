@@ -6,12 +6,12 @@ set(GOOGLETEST_PATH lib/googletest-master)
 add_subdirectory(${GOOGLETEST_PATH})
 
 # Add the source files of each TP class
-file(GLOB TP5_FILES CONFIGURE_DEPENDS
-        "TP5/*.cpp"
+file(GLOB TP6_FILES CONFIGURE_DEPENDS
+        "TP6/*.cpp"
         )
 
-add_executable(TP5
+add_executable(TP6
         main.cpp
-        ${TP5_FILES}
+        ${TP6_FILES}
         )
-target_link_libraries(TP5 gtest_main gmock_main)
+target_link_libraries(TP6 gtest_main gmock_main)

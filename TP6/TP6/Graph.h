@@ -9,6 +9,8 @@
 #include <list>
 #include <limits>
 #include <cmath>
+#include <climits>
+#include <set>
 #include "MutablePriorityQueue.h"
 
 
@@ -167,24 +169,88 @@ bool Graph<T>::addEdge(const T &sourc, const T &dest, double w) {
     return true;
 }
 
+using namespace std;
 
 /**************** Single Source Shortest Path algorithms ************/
 
 template<class T>
 void Graph<T>::unweightedShortestPath(const T &orig) {
     // TODO implement this
+    Vertex<T>* origin;
+    if ((origin = findVertex(orig)) == NULL) return;
+    for (auto v: vertexSet)
+        if (v == origin) v->dist = 0;
+        else v->dist = INT_MAX;
+    queue<Vertex<T>*> points;
+    points.push(origin);
+    while (!points.empty()) {
+        Vertex<T>* v = points.front();
+        points.pop();
+        for (Edge<T> e: v->adj)
+            if (e.dest->dist == INT_MAX) {
+                points.push(e.dest);
+                e.dest->dist = v->dist + 1;
+                e.dest->path = v;
+            }
+    }
 }
 
 
 template<class T>
-void Graph<T>::dijkstraShortestPath(const T &origin) {
+void Graph<T>::dijkstraShortestPath(const T &orig) {
     // TODO implement this
+    Vertex<T>* origin;
+    if ((origin = findVertex(orig)) == NULL) return;
+    for (auto v: vertexSet) {
+        if (v == origin) v->dist = 0;
+        else v->dist = INT_MAX;
+        v->path = NULL;
+    }
+    MutablePriorityQueue<Vertex<T>> queue = MutablePriorityQueue<Vertex<T>>();
+    queue.insert(origin);
+    while (!queue.empty()) {
+        Vertex<T>* v = queue.extractMin();
+        for(Edge<T> w: v->adj) {
+            bool check = false;
+            if (w.dest->dist == INT_MAX) check = true;
+            if (w.dest->dist > v->dist + w.weight) {
+                w.dest->dist = v->dist + w.weight;
+                w.dest->path = v;
+                if (check) queue.insert(w.dest);
+                else queue.decreaseKey(w.dest);
+            }
+        }
+    }
 }
 
 
 template<class T>
 void Graph<T>::bellmanFordShortestPath(const T &orig) {
     // TODO implement this
+    Vertex<T>* origin;
+    if ((origin = findVertex(orig)) == NULL) return;
+    for (auto v: vertexSet) {
+        if (v == origin) v->dist = 0;
+        else v->dist = INT_MAX;
+        v->path = NULL;
+    }
+    for (int i = 0; i < vertexSet.size(); i++) {
+        for (Vertex<T>* v: vertexSet) {
+            for (Edge<T> e: v->adj) {
+                if (e.dest->dist > v->dist + e.weight) {
+                    e.dest->dist = v->dist + e.weight;
+                    e.dest->path = v;
+                }
+            }
+        }
+    }
+    /*for (Vertex<T>* v: vertexSet) {
+        for (Edge<T> e: v->adj) {
+            if (e.dest->dist > v->dist + e.weight) {
+                cout << "failed" << endl;
+            }
+        }
+    }*/
 }
 
 
@@ -192,6 +258,13 @@ template<class T>
 std::vector<T> Graph<T>::getPath(const T &origin, const T &dest) const{
     std::vector<T> res;
     // TODO implement this
+    Vertex<T>* point = findVertex(dest);
+    if (point == NULL) return res;
+    while (point->info != origin) {
+        res.insert(res.begin(), point->info);
+        point = point->path;
+    }
+    res.insert(res.begin(), point->info);
     return res;
 }
 

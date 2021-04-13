@@ -43,6 +43,7 @@ template <class T>
 class Graph {
     std::vector<Vertex<T> *> vertexSet;    // vertex set
 
+
 	void dfsVisit(Vertex<T> *v,  std::vector<T> & res) const;
 	Vertex<T> *findVertex(const T &in) const;
 	bool dfsIsDAG(Vertex<T> *v) const;

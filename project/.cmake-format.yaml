@@ -1,0 +1,11 @@
+output_encoding: utf-8
+line_ending: unix
+
+tab_size: 4
+use_tabchars: false
+line_width: 120
+
+dangle_parens: true
+max_pargs_hwrap: 3
+
+command_case: lower

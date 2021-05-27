@@ -200,7 +200,6 @@ void Graph<T>::unweightedShortestPath(const T &orig) {
 
 template<class T>
 void Graph<T>::dijkstraShortestPath(const T &orig) {
-    // TODO implement this
     Vertex<T>* origin;
     if ((origin = findVertex(orig)) == NULL) return;
     for (auto v: vertexSet) {
